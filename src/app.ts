@@ -5,8 +5,10 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import createHttpError from "http-errors";
 import { Prisma } from "@prisma/client";
+import swaggerUi from "swagger-ui-express";
 import { authRouter } from "./modules/auth/auth.routes";
 import { taskRouter } from "./modules/tasks/task.routes";
+import { swaggerSpec } from "./config/swagger";
 
 export const app = express();
 
@@ -25,6 +27,12 @@ app.use(
 
 app.get("/health", (_, res) => {
   res.status(200).json({ status: "ok" });
+});
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get("/api-docs.json", (_, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
 });
 
 app.use("/api/auth", authRouter);
