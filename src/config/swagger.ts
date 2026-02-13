@@ -15,7 +15,7 @@ const options: Options = {
     ],
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "https://node-todo-vv2s.onrender.com",
       },
     ],
     components: {
